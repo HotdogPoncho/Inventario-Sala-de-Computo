@@ -14,11 +14,11 @@ Begin VB.Form Busqueda
    StartUpPosition =   3  'Windows Default
    Begin MSAdodcLib.Adodc Busqueda 
       Height          =   495
-      Left            =   7560
-      Top             =   480
+      Left            =   9840
+      Top             =   360
       Visible         =   0   'False
-      Width           =   3135
-      _ExtentX        =   5530
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   873
       ConnectMode     =   0
       CursorLocation  =   3
@@ -62,27 +62,27 @@ Begin VB.Form Busqueda
    Begin VB.CommandButton cmdLimpiar 
       Caption         =   "Limpiar"
       Height          =   855
-      Left            =   9480
+      Left            =   3480
       TabIndex        =   6
-      Top             =   3600
+      Top             =   1080
       Width           =   1935
    End
    Begin VB.CommandButton cmdInicio 
       Caption         =   "Inicio"
       Height          =   855
-      Left            =   6960
+      Left            =   6000
       TabIndex        =   5
-      Top             =   3600
+      Top             =   1080
       Width           =   1935
    End
    Begin MSDataGridLib.DataGrid DataGridBUSQUEDA 
-      Height          =   5655
+      Height          =   3615
       Left            =   240
       TabIndex        =   4
-      Top             =   240
-      Width           =   6015
-      _ExtentX        =   10610
-      _ExtentY        =   9975
+      Top             =   2280
+      Width           =   11535
+      _ExtentX        =   20346
+      _ExtentY        =   6376
       _Version        =   393216
       HeadLines       =   1
       RowHeight       =   15
@@ -142,10 +142,10 @@ Begin VB.Form Busqueda
    Begin VB.TextBox txtBuscar 
       DataField       =   "Observaciones"
       Height          =   375
-      Left            =   9240
+      Left            =   3480
       TabIndex        =   3
-      Top             =   2160
-      Width           =   2295
+      Top             =   360
+      Width           =   3615
    End
    Begin VB.OptionButton optComputadora 
       BackColor       =   &H00800000&
@@ -161,14 +161,14 @@ Begin VB.Form Busqueda
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   555
-      Left            =   6960
+      Left            =   1080
       TabIndex        =   2
-      Top             =   2520
+      Top             =   1320
       Width           =   1815
    End
    Begin VB.OptionButton optSerie 
       BackColor       =   &H00800000&
-      Caption         =   "Numero de serie"
+      Caption         =   "Numero de Inventario"
       BeginProperty Font 
          Name            =   "Verdana"
          Size            =   9.75
@@ -180,9 +180,9 @@ Begin VB.Form Busqueda
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   555
-      Left            =   6960
+      Left            =   1080
       TabIndex        =   1
-      Top             =   2040
+      Top             =   840
       Width           =   1815
    End
    Begin VB.OptionButton optSala 
@@ -199,9 +199,9 @@ Begin VB.Form Busqueda
       EndProperty
       ForeColor       =   &H00FFFFFF&
       Height          =   555
-      Left            =   6960
+      Left            =   1080
       TabIndex        =   0
-      Top             =   1560
+      Top             =   360
       Width           =   1815
    End
 End
@@ -217,10 +217,22 @@ Private Sub Form_Load()
     Busqueda.CursorLocation = adUseClient
     Busqueda.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & App.Path & "\Inventario.mdb;Persist Security Info=False"
     
-    Busqueda.RecordSource = "SELECT * FROM inventario"
-    'Busqueda.Refresh
+    Busqueda.RecordSource = "SELECT NumeroDeSala,NumeroDeComputadora,NumeroDeInventarioUNAM,NumeroDeSerieCPU,NumeroDeSerieTeclado,NumeroDeSerieMouse,NumeroDeSerieMonitor,MarcaCPU,ModeloCPU,Observaciones FROM inventario"
+    Busqueda.Refresh
      
     Set DataGridBUSQUEDA.DataSource = Busqueda
+    
+    DataGridBUSQUEDA.Columns(0).Width = 500
+    DataGridBUSQUEDA.Columns(1).Width = 800
+    DataGridBUSQUEDA.Columns(2).Width = 2500
+    DataGridBUSQUEDA.Columns(3).Width = 2200
+    DataGridBUSQUEDA.Columns(4).Width = 2400
+    DataGridBUSQUEDA.Columns(5).Width = 2450
+    DataGridBUSQUEDA.Columns(6).Width = 2050
+    DataGridBUSQUEDA.Columns(7).Width = 800
+    DataGridBUSQUEDA.Columns(8).Width = 1200
+    DataGridBUSQUEDA.Columns(9).Width = 2500
+    
     
 End Sub
 
@@ -235,15 +247,25 @@ Private Sub txtBuscar_Change()
     Dim Buscar As String
     Buscar = "%" & txtBuscar.Text & "%"
     If optSala.Value = True Then
-        Busqueda.RecordSource = "SELECT * FROM inventario WHERE [NumeroDeSala] LIKE '" & Buscar & "' "
+        Busqueda.RecordSource = "SELECT NumeroDeSala,NumeroDeComputadora,NumeroDeInventarioUNAM,NumeroDeSerieCPU,NumeroDeSerieTeclado,NumeroDeSerieMouse,NumeroDeSerieMonitor,MarcaCPU,ModeloCPU,Observaciones FROM inventario WHERE [NumeroDeSala] LIKE '" & Buscar & "' "
         Busqueda.Refresh
     ElseIf optSerie.Value = True Then
-        Busqueda.RecordSource = "SELECT * FROM inventario WHERE [NumeroDeInventarioUNAM] LIKE '" & Buscar & "' "
+        Busqueda.RecordSource = "SELECT NumeroDeSala,NumeroDeComputadora,NumeroDeInventarioUNAM,NumeroDeSerieCPU,NumeroDeSerieTeclado,NumeroDeSerieMouse,NumeroDeSerieMonitor,MarcaCPU,ModeloCPU,Observaciones FROM inventario WHERE [NumeroDeInventarioUNAM] LIKE '" & Buscar & "' "
         Busqueda.Refresh
     ElseIf optComputadora.Value = True Then
-        Busqueda.RecordSource = "SELECT * FROM inventario WHERE [NumeroDeComputadora] LIKE '" & Buscar & "' "
+        Busqueda.RecordSource = "SELECT NumeroDeSala,NumeroDeComputadora,NumeroDeInventarioUNAM,NumeroDeSerieCPU,NumeroDeSerieTeclado,NumeroDeSerieMouse,NumeroDeSerieMonitor,MarcaCPU,ModeloCPU,Observaciones FROM inventario WHERE [NumeroDeComputadora] LIKE '" & Buscar & "' "
         Busqueda.Refresh
     End If
+    DataGridBUSQUEDA.Columns(0).Width = 500
+    DataGridBUSQUEDA.Columns(1).Width = 800
+    DataGridBUSQUEDA.Columns(2).Width = 2500
+    DataGridBUSQUEDA.Columns(3).Width = 2200
+    DataGridBUSQUEDA.Columns(4).Width = 2400
+    DataGridBUSQUEDA.Columns(5).Width = 2450
+    DataGridBUSQUEDA.Columns(6).Width = 2050
+    DataGridBUSQUEDA.Columns(7).Width = 800
+    DataGridBUSQUEDA.Columns(8).Width = 1200
+    DataGridBUSQUEDA.Columns(9).Width = 2500
 End Sub
 
 Private Sub DataGridBUSQUEDA_dblClick()

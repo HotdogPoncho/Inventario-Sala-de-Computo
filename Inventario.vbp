@@ -13,6 +13,7 @@ Form=Modificar.frm
 IconForm="RegistroDeInventario"
 Startup="Sub Main"
 HelpFile=""
+ExeName32="Inventario.exe"
 Command32=""
 Name="Inventario"
 HelpContextID="0"
