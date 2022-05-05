@@ -38,8 +38,8 @@ Begin VB.Form RegistroDeInventario
       ForeColor       =   -2147483640
       Orientation     =   0
       Enabled         =   -1
-      Connect         =   "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Inventario.mdb;Persist Security Info=False"
-      OLEDBString     =   "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Inventario.mdb;Persist Security Info=False"
+      Connect         =   $"RegistroDeInventario.frx":0000
+      OLEDBString     =   $"RegistroDeInventario.frx":009B
       OLEDBFile       =   ""
       DataSourceName  =   ""
       OtherAttributes =   ""
@@ -386,18 +386,26 @@ Private Sub Form_Load()
     AdodcAgregar.Recordset.AddNew
     limpiarEspacios
 End Sub
-
 Private Sub cmdAgregar_Click()
-    Dim resultado As Integer
-    AdodcAgregar.Recordset.Update
-    resultado = MsgBox("Registro exitoso, ¿Desea agregar más?", vbInformation + vbYesNo, "Registro exitoso")
-    If resultado = 6 Then
-        Unload Me
-        RegistroDeInventario.Show
+    Dim resultado, verificacion As Integer
+    
+    verificacion = MsgBox("¿Los datos ingresados son correctos?", vbInformation + vbYesNo, "Verificación de Información")
+    If verificacion = 6 Then
+        AdodcAgregar.Recordset.Update
+        resultado = MsgBox("Registro exitoso, ¿Desea agregar más?", vbInformation + vbYesNo, "Registro exitoso")
+        If resultado = 6 Then
+            Unload Me
+            RegistroDeInventario.Show
+        ElseIf resultado = 7 Then
+            INICIO.Show
+            Unload Me
+        End If
+            
     ElseIf resultado = 7 Then
-        INICIO.Show
-        Unload Me
+        
     End If
+
+    
 
     
 End Sub
@@ -421,8 +429,12 @@ Private Sub limpiarEspacios()
     txtMarcaCPU(7).Text = ""
     txtModeloCPU(8).Text = ""
     txtObservaciones(9).Text = ""
+      
     
-    
-    
-    
+End Sub
+
+Private Sub verificarDatos()
+
+    MsgBox "Desea guardar los cambios", vbQuestion + vbOKOnly, "Mensaje"
+
 End Sub

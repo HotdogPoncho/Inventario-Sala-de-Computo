@@ -11,6 +11,14 @@ Begin VB.Form Modificar
    ScaleHeight     =   6585
    ScaleWidth      =   14445
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdBorrar 
+      Caption         =   "Borrar"
+      Height          =   855
+      Left            =   11040
+      TabIndex        =   22
+      Top             =   4680
+      Width           =   1935
+   End
    Begin MSAdodcLib.Adodc AdodcActualizar 
       Height          =   615
       Left            =   2160
@@ -39,7 +47,7 @@ Begin VB.Form Modificar
       Orientation     =   0
       Enabled         =   -1
       Connect         =   $"Modificar.frx":0000
-      OLEDBString     =   $"Modificar.frx":0099
+      OLEDBString     =   $"Modificar.frx":008E
       OLEDBFile       =   ""
       DataSourceName  =   ""
       OtherAttributes =   ""
@@ -61,7 +69,7 @@ Begin VB.Form Modificar
    Begin VB.CommandButton cmdInicio 
       Caption         =   "Inicio"
       Height          =   855
-      Left            =   8160
+      Left            =   6480
       TabIndex        =   21
       Top             =   4680
       Width           =   1935
@@ -69,7 +77,7 @@ Begin VB.Form Modificar
    Begin VB.CommandButton cmdActualizar 
       Caption         =   "Actualizar"
       Height          =   855
-      Left            =   11040
+      Left            =   8760
       TabIndex        =   11
       Top             =   4680
       Width           =   1935
@@ -382,18 +390,20 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
+
+
 Private Sub Form_Load()
     R_INVENTARIO
-    txtSala(0).Text = Busqueda.DataGridBUSQUEDA.Columns(1).Text
-    txtComputadora(1).Text = Busqueda.DataGridBUSQUEDA.Columns(2).Text
-    txtInventarioUNAM(2).Text = Busqueda.DataGridBUSQUEDA.Columns(3).Text
-    txtSerieCPU(3).Text = Busqueda.DataGridBUSQUEDA.Columns(4).Text
-    txtSerieTeclado(4).Text = Busqueda.DataGridBUSQUEDA.Columns(5).Text
-    txtSerieMouse(5).Text = Busqueda.DataGridBUSQUEDA.Columns(6).Text
-    txtSerieMonitor(6).Text = Busqueda.DataGridBUSQUEDA.Columns(7).Text
-    txtMarcaCPU(7).Text = Busqueda.DataGridBUSQUEDA.Columns(8).Text
-    txtModeloCPU(8).Text = Busqueda.DataGridBUSQUEDA.Columns(9).Text
-    txtObservaciones(9).Text = Busqueda.DataGridBUSQUEDA.Columns(10).Text
+    txtSala(0).Text = Busqueda.DataGridBUSQUEDA.Columns(0).Text
+    txtComputadora(1).Text = Busqueda.DataGridBUSQUEDA.Columns(1).Text
+    txtInventarioUNAM(2).Text = Busqueda.DataGridBUSQUEDA.Columns(2).Text
+    txtSerieCPU(3).Text = Busqueda.DataGridBUSQUEDA.Columns(3).Text
+    txtSerieTeclado(4).Text = Busqueda.DataGridBUSQUEDA.Columns(4).Text
+    txtSerieMouse(5).Text = Busqueda.DataGridBUSQUEDA.Columns(5).Text
+    txtSerieMonitor(6).Text = Busqueda.DataGridBUSQUEDA.Columns(6).Text
+    txtMarcaCPU(7).Text = Busqueda.DataGridBUSQUEDA.Columns(7).Text
+    txtModeloCPU(8).Text = Busqueda.DataGridBUSQUEDA.Columns(8).Text
+    txtObservaciones(9).Text = Busqueda.DataGridBUSQUEDA.Columns(9).Text
     
     
 End Sub
@@ -431,4 +441,25 @@ Private Sub cmdActualizar_Click()
     End If
     
     
+End Sub
+
+Private Sub cmdBorrar_Click()
+
+Dim resultado As Integer
+
+On Error GoTo salida:
+    Busqueda.Busqueda.Recordset.Find "NumeroDeSerieCPU ='" & Trim(txtSerieCPU(3).Text) & "'"
+    Busqueda.Busqueda.Recordset.Delete
+    resultado = MsgBox("Eliminación exitosa, ¿Desea modificar más?", vbInformation + vbYesNo, "Eliminiación Exitosa")
+    If resultado = 6 Then
+        Unload Me
+        Busqueda.Show
+    ElseIf resultado = 7 Then
+        INICIO.Show
+        Unload Me
+    End If
+    Exit Sub
+salida:
+    MsgBox "El campo es vacío o no se encontró en la base de datos", vbCritical, "Error"
+
 End Sub

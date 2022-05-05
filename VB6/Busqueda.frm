@@ -40,7 +40,7 @@ Begin VB.Form Busqueda
       Orientation     =   0
       Enabled         =   -1
       Connect         =   $"Busqueda.frx":0000
-      OLEDBString     =   $"Busqueda.frx":0098
+      OLEDBString     =   $"Busqueda.frx":009B
       OLEDBFile       =   ""
       DataSourceName  =   ""
       OtherAttributes =   ""
@@ -271,7 +271,6 @@ End Sub
 Private Sub DataGridBUSQUEDA_dblClick()
     If DataGridBUSQUEDA.ApproxCount < 1 Then
     Else
-        
         Modificar.Show
         Unload Me
     End If
